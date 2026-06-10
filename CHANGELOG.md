@@ -1,8 +1,10 @@
+<!-- fullWidth: false tocVisible: false tableWrap: true -->
 # CHANGELOG
 
 ## v1.2.0 (2026-06-03)
 
 ### Changed
+
 - **Native Markdown formatting via `format_data`** — no more Unicode hacks!
   - `**bold**`, `*italic*`, `<u>underline</u>`, `[text](url)`, `***nested***`
   - `_format_content_raw()` returns `(plain_text, format_data_json)`
@@ -13,11 +15,13 @@
 - Updated `platform_hint` to describe native formatting
 
 ### Added
+
 - `_format_content_raw()` method returning `(plain_text, format_data)` tuple
 
 ## v1.1.0 (2026-06-03)
 
 ### Added
+
 - **Markdown → VK formatting** (`format.py`): bold, italic, code, links, headers, lists, blockquotes, fenced code blocks, HTML sanitization
 - **Inline Keyboard** (`keyboard.py`): VKKeyboard builder (10×4 buttons), `send_keyboard()`, `remove_keyboard()`, callback payload parsing
 - **Access policies** (`policy.py`):
@@ -34,12 +38,14 @@
 - **Config schema**: `plugin.yaml` now documents all configuration parameters
 
 ### Changed
+
 - `send()` now applies `format_vk_message()` automatically
 - `VK_ALLOWED_USERS` / `VK_ALLOW_ALL_USERS` legacy env vars still supported
 - `platform_hint` updated: messages support basic formatting
 - Improved error resilience: fallback chains for image upload, scope-denied recovery
 
 ### Fixed
+
 - `chat_type` duplicate determination in `_process_update` (was causing KeyError)
 - `_send_semaphore` replaced with proper token-bucket rate limiter
 

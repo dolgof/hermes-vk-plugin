@@ -1,6 +1,5 @@
+<!-- fullWidth: false tocVisible: false tableWrap: true -->
 # VK Plugin for Hermes Agent
-
-![VK Logo](https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg){width=162}
 
 Плагин для [Hermes Agent](https://github.com/nousresearch/hermes), подключающий AI-агента к сообществам [VK](https://vk.com) через Bots Long Poll API.
 
@@ -43,12 +42,12 @@
 
 ### 🔐 Политики доступа
 
-| dmPolicy    | Описание                                  |
-| ----------- | ----------------------------------------- |
-| `open`      | Все могут писать в ЛС                     |
+| dmPolicy  | Описание                                  |
+| --------- | ----------------------------------------- |
+| `open`    | Все могут писать в ЛС                     |
 | `allowlist` | Только пользователи из `allowFrom`        |
-| `pairing`   | Код-подтверждение для новых пользователей |
-| `disabled`  | ЛС отключены                              |
+| `pairing` | Код-подтверждение для новых пользователей |
+| `disabled` | ЛС отключены                              |
 
 | groupPolicy | Описание                 |
 | ----------- | ------------------------ |
@@ -168,33 +167,33 @@ vk:
 
 ## Публичный API плагина
 
-| Функция/Метод                                     | Описание                              |
-| ------------------------------------------------- | ------------------------------------- |
-| `VKAdapter`                                       | Основной адаптер платформы            |
-| `format_vk_message(text)`                         | Markdown → VK текст (legacy)          |
-| `parse_markdown(text)`                            | Markdown → Format tree                |
-| `markdown_format_data(text)`                      | Markdown → (plain_text, format_data)  |
-| `VKKeyboard(one_time, inline)`                    | Билдер клавиатуры                     |
-| `check_dm_policy(user_id, dm_policy, allow_from)` | Проверка DM политики                  |
-| `check_group_policy(user_id, ...)`                | Проверка групповой политики           |
-| `issue_pairing_challenge(user_id)`                | Выпуск pairing-кода                   |
-| `validate_pairing_code(user_id, code)`            | Проверка pairing-кода                 |
-| `download_vk_attachments(client, attachments)`    | Скачивание вложений                   |
+| Функция/Метод                                   | Описание                             |
+| ----------------------------------------------- | ------------------------------------ |
+| `VKAdapter`                                     | Основной адаптер платформы           |
+| `format_vk_message(text)`                       | Markdown → VK текст (legacy)         |
+| `parse_markdown(text)`                          | Markdown → Format tree               |
+| `markdown_format_data(text)`                    | Markdown → (plain_text, format_data) |
+| `VKKeyboard(one_time, inline)`                  | Билдер клавиатуры                    |
+| `check_dm_policy(user_id, dm_policy, allow_from)` | Проверка DM политики                 |
+| `check_group_policy(user_id, ...)`              | Проверка групповой политики          |
+| `issue_pairing_challenge(user_id)`              | Выпуск pairing-кода                  |
+| `validate_pairing_code(user_id, code)`          | Проверка pairing-кода                |
+| `download_vk_attachments(client, attachments)`  | Скачивание вложений                  |
 
 ### Методы VKAdapter
 
-| Метод                                        | Описание                   |
-| -------------------------------------------- | -------------------------- |
-| `send(chat_id, content, reply_to)`           | Отправить текст            |
-| `send_keyboard(chat_id, content, keyboard)`  | Отправить с клавиатурой    |
-| `remove_keyboard(chat_id, content)`          | Удалить клавиатуру         |
-| `send_image(chat_id, image_url, caption)`    | Отправить изображение      |
-| `send_image_file(chat_id, image_path)`       | Отправить файл изображения |
+| Метод                                      | Описание                   |
+| ------------------------------------------ | -------------------------- |
+| `send(chat_id, content, reply_to)`         | Отправить текст            |
+| `send_keyboard(chat_id, content, keyboard)` | Отправить с клавиатурой    |
+| `remove_keyboard(chat_id, content)`        | Удалить клавиатуру         |
+| `send_image(chat_id, image_url, caption)`  | Отправить изображение      |
+| `send_image_file(chat_id, image_path)`     | Отправить файл изображения |
 | `send_document(chat_id, file_path, caption)` | Отправить документ         |
-| `edit_message(chat_id, msg_id, content)`     | Редактировать сообщение    |
-| `delete_message(chat_id, msg_id)`            | Удалить сообщение          |
-| `probe()`                                    | Health check               |
-| `get_chat_info(chat_id)`                     | Информация о чате          |
+| `edit_message(chat_id, msg_id, content)`   | Редактировать сообщение    |
+| `delete_message(chat_id, msg_id)`          | Удалить сообщение          |
+| `probe()`                                  | Health check               |
+| `get_chat_info(chat_id)`                   | Информация о чате          |
 
 ---
 
@@ -204,23 +203,23 @@ VK поддерживает inline-клавиатуры — кнопки под 
 
 ### Типы кнопок
 
-| Тип           | action_type    | Описание                                                          |
-|---------------|----------------|-------------------------------------------------------------------|
-| **Текст**     | `text`         | Отправляет callback-текст боту. Требует payload.                  |
-| **Callback**  | `callback`     | Аналог text, но кнопка скрывается после нажатия. Требует payload. |
-| **Ссылка**    | `open_link`    | Открывает URL в браузере. Не требует payload. Требует `link`.     |
-| **Приложение**| `open_app`     | Открывает VK Mini App. Требует `app_id`, `owner_id`, `hash`.     |
-| **Локация**   | `location`     | Запрашивает геолокацию пользователя.                              |
-| **VK Pay**    | `vkpay`        | Открывает платёж VK Pay.                                          |
+| Тип        | action_type | Описание                                                          |
+| ---------- | ----------- | ----------------------------------------------------------------- |
+| **Текст**  | `text`      | Отправляет callback-текст боту. Требует payload.                  |
+| **Callback** | `callback`  | Аналог text, но кнопка скрывается после нажатия. Требует payload. |
+| **Ссылка** | `open_link` | Открывает URL в браузере. Не требует payload. Требует `link`.     |
+| **Приложение** | `open_app`  | Открывает VK Mini App. Требует `app_id`, `owner_id`, `hash`.      |
+| **Локация** | `location`  | Запрашивает геолокацию пользователя.                              |
+| **VK Pay** | `vkpay`     | Открывает платёж VK Pay.                                          |
 
 ### Цвета кнопок
 
-| color       | Вид      | Назначение          |
-|-------------|----------|---------------------|
-| `primary`   | Синяя    | Основное действие   |
-| `secondary` | Белая    | Нейтральное         |
-| `positive`  | Зелёная  | Подтверждение       |
-| `negative`  | Красная  | Отмена / Удаление   |
+| color     | Вид     | Назначение        |
+| --------- | ------- | ----------------- |
+| `primary` | Синяя   | Основное действие |
+| `secondary` | Белая   | Нейтральное       |
+| `positive` | Зелёная | Подтверждение     |
+| `negative` | Красная | Отмена / Удаление |
 
 ### Использование `Keyboard` из кода адаптера
 
@@ -256,10 +255,10 @@ await adapter.remove_keyboard(chat_id)
 
 VK отправляет нажатие кнопки двумя способами:
 
-| Тип кнопки | Событие VK          | Как обрабатывается                                             |
-|------------|---------------------|---------------------------------------------------------------|
+| Тип кнопки | Событие VK            | Как обрабатывается                                            |
+| ---------- | --------------------- | ------------------------------------------------------------- |
 | `text`     | `message_new` + `payload` | Парсится в `_process_update`, текст заменяется на `/vk_<command>` |
-| `callback` | `message_event`           | `_process_callback_event` → создаёт `/vk_callback:<command>`   |
+| `callback` | `message_event`       | `_process_callback_event` → создаёт `/vk_callback:<command>`  |
 
 ```python
 from vk.keyboard import make_callback_payload, parse_callback_payload
@@ -273,19 +272,20 @@ command = parse_callback_payload(incoming_message)
 ```
 
 Для `callback`-кнопок (`message_event`) адаптер автоматически:
+
 1. Отвечает на событие (acknowledge) — VK не показывает ошибку
 2. Создаёт виртуальное сообщение `/vk_callback:confirm {"item_id":42, ...}`
 3. Диспатчит через `handle_message()` — шлюз обрабатывает как команду
 
 ### Ограничения VK API
 
-| Параметр               | Лимит                    |
-|------------------------|--------------------------|
-| Строк (рядов)          | ≤ **10**                 |
-| Кнопок в строке        | ≤ **4**                  |
-| Длина текста кнопки    | ≤ **40** символов        |
-| Размер payload         | ≤ **255** байт (JSON)    |
-| Всего кнопок           | ≤ **40**                 |
+| Параметр            | Лимит             |
+| ------------------- | ----------------- |
+| Строк (рядов)       | ≤ **10**          |
+| Кнопок в строке     | ≤ **4**           |
+| Длина текста кнопки | ≤ **40** символов |
+| Размер payload      | ≤ **255** байт (JSON) |
+| Всего кнопок        | ≤ **40**          |
 
 ---
 
@@ -293,14 +293,14 @@ command = parse_callback_payload(incoming_message)
 
 VK API поддерживает нативное форматирование через параметр `format_data`. Плагин автоматически конвертирует Markdown в format_data:
 
-| Markdown           | VK format_data              |
-|--------------------|-----------------------------|
-| `**жирный**`       | bold span                   |
-| `*курсив*`         | italic span                 |
-| `<u>подчёркнутый</u>` | underline span           |
+| Markdown            | VK format_data            |
+| ------------------- | ------------------------- |
+| `**жирный**`        | bold span                 |
+| `*курсив*`          | italic span               |
+| `<u>подчёркнутый</u>` | underline span            |
 | `***жирный курсив***` | bold + italic (вложенные) |
-| `[текст](url)`     | clickable link              |
-| `\\*экранировано\\*`  | literal asterisks        |
+| `[текст](url)`      | clickable link            |
+| `\\*экранировано\\*` | literal asterisks         |
 
 Плагин также включает **legacy-модуль** `format.py` для конвертации Markdown → plain text (использовался до обнаружения format_data). Он сохранён для обратной совместимости.
 
@@ -335,7 +335,7 @@ plain_text, format_data_json = markdown_format_data("**Привет**, *мир*!
 
 ### Pairing (код-подтверждение)
 
-Режим `pairing` генерирует 6-значный код при первом сообщении от пользователя.
+Режим `pairing` генерирует 6-значный код при первом сообщении от пользователя.\
 Код действителен 5 минут. После успешного подтверждения пользователь попадает в белый список до перезапуска.
 
 ```python
@@ -357,6 +357,7 @@ if validate_pairing_code("12345", "483291"):
 ## Multi-account
 
 Плагин поддерживает несколько сообществ VK на одном экземпляре. Каждый аккаунт имеет собственный:
+
 - Токен доступа (из конфига, переменной окружения или файла)
 - Long Poll соединение (независимый цикл опроса)
 - Политики доступа (dmPolicy, groupPolicy)
