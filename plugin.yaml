@@ -1,0 +1,80 @@
+name: vk
+kind: platform
+version: 1.2.0
+author: "Dolgof@voima"
+repository: "https://github.com/dolgof/hermes-vk-plugin"
+docs: "https://dev.vk.com/en/api/community-messages/getting-started"
+description: >-
+  VK Messenger (VK Мессенджер) platform adapter.
+  Uses VK Community Messages Long Poll API.
+  Supports native Markdown formatting via format_data parameter,
+  inline keyboards, DM/group access policies,
+  pairing challenges, multi-account, and inbound media download.
+requires_env:
+  - VK_GROUP_TOKEN
+install_hint: "pip install httpx"
+config_schema:
+  type: object
+  properties:
+    token:
+      type: string
+      description: "VK Community access token"
+    tokenFile:
+      type: string
+      description: "Path to file containing the token (alternative to token env)"
+    api_version:
+      type: string
+      default: "5.199"
+    dmPolicy:
+      type: string
+      enum: ["open", "allowlist", "pairing", "disabled"]
+      default: "open"
+      description: "DM access policy"
+    allowFrom:
+      type: array
+      items:
+        type: string
+      description: "User IDs allowed in DM (or ['*'] for all)"
+    groupPolicy:
+      type: string
+      enum: ["open", "allowlist", "disabled"]
+      default: "open"
+      description: "Group chat access policy"
+    groupAllowFrom:
+      type: array
+      items:
+        type: string
+      description: "User IDs allowed in group chats"
+    requireMention:
+      type: boolean
+      default: false
+      description: "Require @mention in group chats"
+    botName:
+      type: string
+      description: "Bot display name for @mention detection"
+    accounts:
+      type: object
+      description: "Multi-account configuration"
+      additionalProperties:
+        type: object
+        properties:
+          token:
+            type: string
+          tokenFile:
+            type: string
+          dmPolicy:
+            type: string
+          allowFrom:
+            type: array
+            items:
+              type: string
+          groupPolicy:
+            type: string
+          groupAllowFrom:
+            type: array
+            items:
+              type: string
+          requireMention:
+            type: boolean
+          botName:
+            type: string

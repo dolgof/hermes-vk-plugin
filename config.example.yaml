@@ -1,0 +1,37 @@
+# Пример конфигурации плагина VK
+# Формат: extra: в PlatformConfig или channels.vk в конфигурации шлюза
+
+# === Одиночный аккаунт ===
+vk:
+  token: "vk1.a.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  dmPolicy: "open"
+  groupPolicy: "open"
+
+# === Multi-account ===
+# vk:
+#   api_version: "5.199"
+#   accounts:
+#     default:
+#       token: "vk1.a.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+#       dmPolicy: "open"
+#       groupPolicy: "open"
+#       allowFrom: ["*"]
+#     support:
+#       tokenFile: "/run/secrets/vk-support-token"
+#       dmPolicy: "pairing"
+#       groupPolicy: "allowlist"
+#       groupAllowFrom: ["*"]
+#       requireMention: true
+#       botName: "Support Bot"
+
+# === Пример с ограничением доступа ===
+# vk:
+#   token: "vk1.a.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+#   dmPolicy: "allowlist"
+#   allowFrom:
+#     - "12345"
+#     - "67890"
+#     - "*"  # разрешает всех, другое значение allowlist игнорируется
+#   groupPolicy: "disabled"
+#   requireMention: true
+#   botName: "AI Assistant"
