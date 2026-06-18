@@ -375,7 +375,7 @@ def markdown_format_data(text: str) -> tuple[str, str | None]:
 # to the VK messages.send call.
 
 _KEYBOARD_MARKER_RE = re.compile(
-    r"\[\[keyboard:\s*(\{.+?\})\s*\]\]", re.DOTALL
+    r"\[\[keyboard:\s*(\{.*\})\s*\]\]", re.DOTALL
 )
 
 

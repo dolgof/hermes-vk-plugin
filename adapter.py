@@ -581,21 +581,21 @@ class VKAdapter(BasePlatformAdapter):
         if not self._http_client or not self._token:
             return SendResult(success=False, error="Not connected")
 
-        # Parse Markdown → plain text + native format_data
-        plain_text, format_data = self._format_content_raw(content)
-
         # Check for keyboard in metadata
         keyboard = None
         if metadata and "keyboard" in metadata:
             keyboard = metadata["keyboard"]
 
-        # Also check for [[keyboard:...]] marker in content text
-        # This allows the AI to send keyboards via standard send_message tool
+        # Extract [[keyboard:...]] marker from RAW content BEFORE markdown parsing
+        # (parse_markdown treats [[ as markdown link syntax and corrupts the JSON)
         if not keyboard:
-            clean_text, kbd_data = extract_keyboard_marker(plain_text)
+            clean_content, kbd_data = extract_keyboard_marker(content)
             if kbd_data:
                 keyboard = kbd_data
-                plain_text = clean_text
+                content = clean_content
+
+        # Parse Markdown → plain text + native format_data
+        plain_text, format_data = self._format_content_raw(content)
 
         params = {
             "peer_id": chat_id,
