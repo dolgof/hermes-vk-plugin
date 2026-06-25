@@ -64,20 +64,10 @@ class VKAdapter(BasePlatformAdapter):
     Supports single-account (legacy) and multi-account configurations.
 
     Single account (backward compatible):
-        extra:
-          token: "..."
-          dmPolicy: "open"
+        VK_GROUP_TOKEN в .env
 
     Multi-account:
-        extra:
-          accounts:
-            default:
-              token: "..."
-              dmPolicy: "open"
-            sales:
-              token: "..."
-              dmPolicy: "pairing"
-              allowFrom: ["*"]
+        VK_GROUP_TOKEN_DEFAULT, VK_GROUP_TOKEN_SALES и т.д. в .env
     """
 
     def __init__(self, config: PlatformConfig):
@@ -96,7 +86,7 @@ class VKAdapter(BasePlatformAdapter):
             for acct_id, acct_cfg in accounts_cfg.items():
                 if not isinstance(acct_cfg, dict):
                     continue
-                token = acct_cfg.get("token", "") or os.getenv(f"VK_GROUP_TOKEN_{acct_id.upper()}", "")
+                token = os.getenv(f"VK_GROUP_TOKEN_{acct_id.upper()}", "")
                 token_file = acct_cfg.get("tokenFile", "")
                 if token_file and not token:
                     try:
@@ -118,7 +108,7 @@ class VKAdapter(BasePlatformAdapter):
                 }
         else:
             # Single-account (legacy) mode
-            token = os.getenv("VK_GROUP_TOKEN") or extra.get("token", "")
+            token = os.getenv("VK_GROUP_TOKEN")
             token_file = extra.get("tokenFile", "")
             if token_file and not token:
                 try:
@@ -1838,21 +1828,10 @@ def check_requirements() -> bool:
 
 
 def validate_config(config) -> bool:
-    """Validate that the VK token is present."""
-    token = os.getenv("VK_GROUP_TOKEN")
-    if token:
+    """Validate that the VK token is present — from .env only."""
+    if os.getenv("VK_GROUP_TOKEN"):
         return True
-    extra = getattr(config, "extra", {}) or {}
-    if extra.get("token"):
-        return True
-    # Check tokenFile
-    token_file = extra.get("tokenFile", "")
-    if token_file:
-        try:
-            with open(token_file, "r") as f:
-                return bool(f.read().strip())
-        except (FileNotFoundError, PermissionError):
-            return False
+    # Optional: check for multi-account env vars
     return False
 
 

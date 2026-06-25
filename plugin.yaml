@@ -1,6 +1,6 @@
 name: vk
 kind: platform
-version: 1.3.0
+version: 1.4.0
 author: Dolgof@voima
 repository: https://github.com/dolgof/hermes-vk-plugin
 docs: https://dev.vk.com/en/api/community-messages/getting-started
@@ -14,12 +14,9 @@ install_hint: pip install httpx
 config_schema:
   type: object
   properties:
-    token:
-      type: string
-      description: VK Community access token
     tokenFile:
       type: string
-      description: Path to file containing the token (alternative to token env)
+      description: Path to file containing the token (alternative to env)
     api_version:
       type: string
       default: '5.199'
@@ -63,8 +60,6 @@ config_schema:
       additionalProperties:
         type: object
         properties:
-          token:
-            type: string
           tokenFile:
             type: string
           dmPolicy:

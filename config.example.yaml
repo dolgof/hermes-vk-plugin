@@ -1,18 +1,21 @@
 # Пример конфигурации плагина VK
-# Формат: extra: в PlatformConfig или channels.vk в конфигурации шлюза
+# Формат: extra в PlatformConfig (gateway.platforms.vk.extra)
+#
+# ⚠️  Токены не хранятся в конфиге — только в .env:
+#       VK_GROUP_TOKEN — для single-account
+#       VK_GROUP_TOKEN_{ID} — для multi-account (ID = имя аккаунта в uppercase)
+#       Либо tokenFile — путь к файлу с токеном (Docker secrets)
 
 # === Одиночный аккаунт ===
-vk:
-  token: "vk1.a.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  dmPolicy: "open"
-  groupPolicy: "open"
+# vk:
+#   dmPolicy: "open"
+#   groupPolicy: "open"
 
 # === Multi-account ===
 # vk:
 #   api_version: "5.199"
 #   accounts:
 #     default:
-#       token: "vk1.a.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 #       dmPolicy: "open"
 #       groupPolicy: "open"
 #       allowFrom: ["*"]
@@ -26,12 +29,11 @@ vk:
 
 # === Пример с ограничением доступа ===
 # vk:
-#   token: "vk1.a.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 #   dmPolicy: "allowlist"
 #   allowFrom:
 #     - "12345"
 #     - "67890"
-#     - "*"  # разрешает всех, другое значение allowlist игнорируется
+#     - "*"
 #   groupPolicy: "disabled"
 #   requireMention: true
 #   botName: "AI Assistant"

@@ -1,6 +1,18 @@
 <!-- fullWidth: false tocVisible: false tableWrap: true -->
 # CHANGELOG
 
+## v1.4.0 (2026-06-25)
+
+### Security
+
+- **Токены только в .env** — удалена возможность хранения `token` в конфиге (`extra`):
+  - Single-account: `os.getenv("VK_GROUP_TOKEN")` — fallback на `extra.token` убран
+  - Multi-account: `os.getenv("VK_GROUP_TOKEN_{ID}")` — fallback на `accounts.*.token` убран
+  - `validate_config()`: проверяет только `VK_GROUP_TOKEN` из окружения
+- **Документация** — все примеры с `token:` в конфиге заменены на env-синтаксис
+- **config_schema** — удалены поля `token` из plugin.yaml
+- **Удалён плагин-дубль** `user-vk/vk` — урезанная копия оригинального плагина
+
 ## v1.3.0 (2026-06-10)
 
 ### Added

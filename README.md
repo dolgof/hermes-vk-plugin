@@ -115,14 +115,13 @@ export VK_GROUP_TOKEN="vk1.a.xxxxx..."
 
 ### Минимальная (один аккаунт)
 
-```yaml
-# plugin.yaml или config.extra
-vk:
-  token: "vk1.a.xxxxx..."
-  dmPolicy: "open"
+Достаточно задать переменную окружения `VK_GROUP_TOKEN` в `.env`:
+
+```bash
+VK_GROUP_TOKEN="vk1.a.xxxxx..."
 ```
 
-### Через переменные окружения (legacy)
+### Через переменные окружения
 
 ```bash
 VK_GROUP_TOKEN="vk1.a.xxxxx..."
@@ -131,14 +130,14 @@ VK_ALLOW_ALL_USERS=true
 
 ### Multi-account
 
+Токены задаются через переменные окружения по имени аккаунта: `VK_GROUP_TOKEN_DEFAULT`, `VK_GROUP_TOKEN_SUPPORT` и т.д.:
+
 ```yaml
 vk:
   accounts:
     default:
-      token: "vk1.a.xxxxx..."
       dmPolicy: "open"
     sales:
-      token: "vk1.a.yyyyy..."
       dmPolicy: "allowlist"
       allowFrom: ["12345", "67890"]
     support:
@@ -149,9 +148,10 @@ vk:
 
 ### Полная конфигурация
 
+Токен задаётся через `VK_GROUP_TOKEN` в `.env`. В конфиге — только политики и опции:
+
 ```yaml
 vk:
-  token: "vk1.a.xxxxx..."
   api_version: "5.199"
 
   # Политики
@@ -452,25 +452,48 @@ if validate_pairing_code("12345", "483291"):
 
 ## Multi-account
 
-Плагин поддерживает несколько сообществ VK на одном экземпляре. Каждый аккаунт имеет собственный:
+Плагин поддерживает несколько сообществ VK на одном экземпляре. Каждый аккаунт полностью изолирован — собственный токен, Long Poll соединение и политики доступа.
 
-- Токен доступа (из конфига, переменной окружения или файла)
-- Long Poll соединение (независимый цикл опроса)
-- Политики доступа (dmPolicy, groupPolicy)
-- Уровень троттлинга (разделяемые rate limiters)
+### Что можно настроить для каждого аккаунта
+
+| Параметр | Описание | Пример |
+|----------|----------|--------|
+| `VK_GROUP_TOKEN_{ID}` | Переменная окружения в `.env`. `{ID}` — имя аккаунта в uppercase | `VK_GROUP_TOKEN_DEFAULT=...` |
+| `tokenFile` | Путь к файлу с токеном (Docker secrets) | `"/run/secrets/vk-token"` |
+| `dmPolicy` | Политика ЛС | `"open"` / `"allowlist"` / `"pairing"` / `"disabled"` |
+| `allowFrom` | Белый список для ЛС | `["12345", "67890"]` или `["*"]` |
+| `groupPolicy` | Политика бесед | `"open"` / `"allowlist"` / `"disabled"` |
+| `groupAllowFrom` | Белый список для бесед | `["*"]` |
+| `requireMention` | Требовать @упоминание в беседах | `true` / `false` |
+| `botName` | Имя бота для @mention детекции | `"Support Bot"` |
+
+### Пример с разными политиками
 
 ```yaml
 vk:
+  api_version: "5.199"
   accounts:
     default:
-      token: "vk1.a.xxxxx..."
-      dmPolicy: "open"
+      dmPolicy: "open"              # всем можно писать в ЛС
+      groupPolicy: "open"
     support:
-      tokenFile: "/run/secrets/vk-support-token"
-      dmPolicy: "pairing"
+      tokenFile: "/run/secrets/vk-support.token"
+      dmPolicy: "pairing"           # код-подтверждение для новых
+      groupPolicy: "allowlist"
+      groupAllowFrom: ["*"]
+      requireMention: true
+      botName: "Support Bot"
+    analytics:
+      dmPolicy: "disabled"          # только групповые чаты
+      groupPolicy: "open"
 ```
 
-В multi-account режиме токен из корневого `vk.token` игнорируется — используются только `accounts`.
+### Как это работает
+
+- Каждый аккаунт запускает **независимый Long Poll** — если один упадёт, остальные продолжают работать
+- Для каждого аккаунта работает свой **watchdog** — автоматически перезапускает упавший Long Poll с экспоненциальным backoff
+- **Rate limiters** общие (разделяются между аккаунтами)
+- Токены задаются через переменные окружения (`VK_GROUP_TOKEN`, `VK_GROUP_TOKEN_{ID}`) или `tokenFile` — в конфиге токены не хранятся
 
 ---
 
