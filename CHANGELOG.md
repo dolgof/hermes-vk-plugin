@@ -1,6 +1,20 @@
 <!-- fullWidth: false tocVisible: false tableWrap: true -->
 # CHANGELOG
 
+## v1.4.2 (2026-07-02)
+
+### Исправлено
+
+- **Сигнатура `connect()`** — добавлен параметр `*, is_reconnect: bool = False` для соответствия контракту Gateway при реконнекте. Исправляет падение с `unexpected keyword argument` при переподключении.
+
+## v1.4.1 (2026-06-25)
+
+### Docs
+
+- **`.env.example` актуализирован** под v1.4.0:
+  - Добавлены секции: Single-account, Multi-account, Доступ, Уведомления
+  - Multi-account: паттерн `VK_GROUP_TOKEN_{ID}` с примерами (`_DEFAULT`, `_SUPPORT`, `_SALES`)
+
 ## v1.4.0 (2026-06-25)
 
 ### Security
